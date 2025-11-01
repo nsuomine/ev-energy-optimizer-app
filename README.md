@@ -1,33 +1,41 @@
-# Lataaja – älykäs latausikkunan optimointi
+# EV Energy Optimizer
 
-Lataaja on selainpohjainen työkalu, joka auttaa mitoittamaan sähköauton latausikkunan
-Suomen pörssisähkön, siirtomaksujen ja tehomaksujen perusteella. Sovellus hakee
-spot-hinnat julkisesta [api.spot-hinta.fi](https://api.spot-hinta.fi) -rajapinnasta ja
-laskee kustannuksiltaan edullisimman latausjakson annettujen teho- ja energiasäätöjen
-perusteella.
+EV Energy Optimizer is a browser-based tool for selecting the most cost-effective
+charging window for an electric vehicle in the Finnish electricity market. The
+app downloads spot prices from the public
+[api.spot-hinta.fi](https://api.spot-hinta.fi) API and combines them with
+distribution and peak power fees to recommend the cheapest charging period for a
+given amount of energy.
 
-## Miten sovellus toimii
+> **Project status**
+>
+> This app was created primarily with OpenAI’s Codex and has not yet been
+> carefully tested. Treat it as an experimental prototype and validate results
+> before using them operationally. Feel free to keep developing and extending
+> the project as you see fit.
 
-1. **Hintadata** – Sovellus hakee uusimmat spot-hinnat rajapinnasta ilman
-   varahinnoittelua. Jos haku epäonnistuu, käyttöliittymä ilmoittaa virheestä eikä näytä
-   vanhentuneita arvioita.
-2. **Siirtomaksu** – Laskenta huomioi siirtomaksun €/kWh. Hinta määräytyy kellonajan ja
-   konfiguraatiotiedostossa määriteltyjen aikavälien perusteella. Uusia hintatasoja voi
-   lisätä helposti lisäämällä uusia tasoja konfiguraatioon.
-3. **Tehomaksu** – Laskenta ottaa haluttaessa huomioon tehomaksun €/kW. Tehomaksu
-   määräytyy sen tunnin perusteella, jolloin keskimääräinen teho on suurin valitulla
-   latausjaksolla. Tehomaksun voi myös ohittaa käyttöliittymän asetuksesta.
-4. **Optimointi** – Sovellus käy läpi vaihtoehtoiset latausikkunat, kunnes löytää
-   kustannuksiltaan edullisimman yhdistelmän spot-hintojen, sähkön marginaalin,
-   siirtomaksujen ja tehomaksun summana.
+## How it works
 
-## Hinnoittelukokonaisuudet
+1. **Spot price data** – The UI fetches the latest spot prices without using any
+   fallback values. If the API request fails, the user is notified and no stale
+   data is shown.
+2. **Distribution fees** – The computation applies the distribution fee (€/kWh)
+   based on the time of day defined in the pricing configuration. Additional fee
+   tiers can be added by editing the configuration files.
+3. **Peak power fee** – Optionally, the calculation includes a peak power fee
+   (€/kW). The fee is applied to the hour with the highest average power during
+   the charging window. Users can disable this component in the UI.
+4. **Optimization** – Every possible charging window is evaluated to locate the
+   lowest combined cost of spot prices, energy margin, distribution fees and the
+   peak power fee.
 
-Sovellus tukee useita verkkoyhtiöitä ja jokainen hinnasto säilytetään omassa tiedostossaan
-hakemistossa [`config/pricing/`](config/pricing/). Manifesti
-[`config/pricing/manifest.json`](config/pricing/manifest.json) määrittelee, mitkä
-hinnoittelut näkyvät käyttöliittymän valitsimessa sekä mikä niistä on oletus
-(`Helen-sähköverkko`). Manifestin rakenne on seuraavanlainen:
+## Pricing configurations
+
+Multiple distribution companies are supported. Each pricing table is stored in
+its own file under [`config/pricing/`](config/pricing/). The manifest file
+[`config/pricing/manifest.json`](config/pricing/manifest.json) defines which
+pricing options appear in the UI and which one is the default (`Helen
+Sähköverkko`).
 
 ```json
 {
@@ -52,48 +60,47 @@ hinnoittelut näkyvät käyttöliittymän valitsimessa sekä mikä niistä on ol
 }
 ```
 
-Jokainen `configPath` osoittaa yksittäiseen hinnastoon. Hinnastot käyttävät samaa rakennetta
-kuin aiemmin, eli niissä on `siirto`- ja `teho`-osiot, joiden `tiers`-taulukko määrittelee
-hinnaston voimassaoloajat, viikonpäivät sekä kellonaikavälit. Esimerkki löytyy tiedostosta
-[`config/pricing/helen.json`](config/pricing/helen.json). Kun lisäät uuden hinnoittelun,
-luo sitä vastaava JSON-tiedosto `config/pricing/`-hakemistoon ja lisää se manifestiin
-ID:n, julkisen nimen ja tiedostopolun kanssa.
+Each `configPath` points to a JSON file that follows the same structure: a
+`siirto` (distribution) section and an optional `teho` (power) section, both
+containing `tiers` arrays that describe when a fee is active. The file
+[`config/pricing/helen.json`](config/pricing/helen.json) serves as an example.
+When adding a new pricing configuration, create the corresponding JSON file and
+list it in the manifest with an ID, user-facing name and file path. The app
+reports configuration errors to the user and ignores invalid pricing files.
 
-Jos hinnastosta puuttuu vaadittuja kenttiä tai ne ovat virheellisiä, sovellus ilmoittaa
-virheestä eikä käytä puutteellista konfiguraatiota.
+## User interface highlights
 
-## Käyttöliittymän työkalut
+- **Pricing selector** – Choose the distribution company. The page URL updates
+  accordingly (e.g. `/helen`, `/vantaan-energia`), making it easy to share a
+  link to a specific configuration. Reloading the page restores the correct
+  pricing based on the path.
+- **Refresh prices** – Reloads spot prices and the selected pricing details.
+- **Save settings** – Stores charging power, energy, peak power toggle, full
+  battery option, energy margin and selected pricing in the browser’s
+  `localStorage`.
+- **Share link** – Copies the current URL (including the pricing path) to the
+  clipboard so settings can be shared.
+- **Sliders** – Adjust the required energy, charging power and energy margin.
+  The margin adds a user-defined premium to the spot price (range 0.01–1.20
+  €/kWh) and affects all energy-dependent calculations.
 
-Käyttöliittymän yläosassa on nyt hinnoittelun valitsin ja toimintopainikkeet:
+The charging view explicitly displays the charging duration in the format
+`Charging time ...` instead of the previous “Charging (15 min)” label.
 
-- **Hinnoittelun valitsin** – voit vaihtaa verkkoyhtiötä. URL-polku päivittyy valinnan
-  mukaan (esim. `/helen`, `/vantaan-energia`), joten oikean hinnoittelun voi jakaa myös
-  linkin kautta. Sivulle palattaessa polun perusteella valitaan automaattisesti oikea
-  hinnasto.
-- **Päivitä hinnat** – hakee spot-hinnat ja valitun hinnoittelun siirto- ja tehotiedot
-  uudelleen.
-- **Tallenna asetukset** – tallentaa lataustehon, energiamäärän, tehomaksuvalinnan,
-  täyden akun asetuksen, sähkön marginaalin ja valitun hinnoittelun selaimen `localStorageen`. Asetukset
-  ladataan automaattisesti, kun sivu avataan seuraavan kerran.
-- **Jaa linkki** – kopioi nykyisen sivun osoitteen (polku mukaan lukien) leikepöydälle, jotta
-  asetukset ja hinnoittelu on helppo jakaa.
+## Running the app locally
 
-Latausasetusten liukusäätimillä voi määrittää ladattavan energian, lataustehon sekä
-sähkön marginaalin. Marginaali lisää valitun lisän spot-hinnan päälle (säätöalue
-0,01–1,20 €/kWh) ja vaikuttaa kaikkiin energiahintaan perustuviin laskelmiin.
-
-Latausnäkymässä poistettiin vanha teksti “Lataus (15 min)” ja sen sijaan esitetään selkeästi
-lataukseen kuluva aika muodossa `Latausaika ...`.
-
-## Käyttöönotto ja testaus
-
-Sovellus on staattinen ja toimii suoraan selaimessa. Paikallista testausta varten riittää
-avata `index.html` modernissa selaimessa. Hintarajapinnan toimivuuden voi tarkistaa
-esimerkiksi komennolla:
+The app is a static site that runs entirely in the browser. To try it locally,
+open `index.html` in a modern browser. You can verify that the pricing API is
+reachable with:
 
 ```bash
 curl -I https://api.spot-hinta.fi/Today
 ```
 
-Jos rajapinta ei ole saatavilla tai vastaa virheeseen, sovellus ilmoittaa käyttäjälle
-hintadatan puuttumisesta eikä näytä vanhoja fallback-hintoja.
+If the API is unavailable or returns an error, the UI informs the user about
+missing price data and does not display outdated fallback prices.
+
+## Further development
+
+There is plenty of room to expand and refine the project—feel free to experiment
+with new features, pricing models, deployment options or automated tests.
