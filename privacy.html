@@ -12,44 +12,139 @@
     />
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/components.css" />
+    <style>
+      .static-page {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1.5rem, 2vw, 2.5rem);
+        width: min(860px, 100%);
+        background: var(--bg-panel);
+        border-radius: 28px;
+        border: 1px solid var(--border-strong);
+        padding: clamp(1.5rem, 3vw, 3rem);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 25px 60px -24px rgba(14, 20, 40, 0.8);
+        color: inherit;
+      }
+
+      .static-page header {
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .static-page h1 {
+        font-size: clamp(2rem, 4vw, 2.6rem);
+      }
+
+      .static-page p,
+      .static-page li {
+        color: var(--text-subtle);
+        line-height: 1.6;
+        font-size: clamp(1rem, 2.1vw, 1.15rem);
+      }
+
+      .static-page ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .static-page a {
+        color: #aab8ff;
+      }
+
+      .static-page footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .static-page footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .static-page footer a {
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+
+      .static-page footer a:hover,
+      .static-page footer a:focus-visible {
+        border-bottom-color: currentColor;
+      }
+    </style>
   </head>
   <body>
-    <main class="page-content">
-      <section class="content-card">
+    <main class="static-page">
+      <header>
         <h1>Tietosuojaseloste</h1>
         <p>
-          Tämä sovellus tallentaa latausasetukset koneellesi, jotta voit jatkaa
-          käyttöä samoilla valinnoilla myöhemmin samalla selaimella. Sovellus ei käytä evästeitä.
+          Tämä dokumentti kertoo, mitä tietoja sovellus käsittelee ja miten voit
+          hallita niitä. Latausoptimoija on staattinen sovellus, joten asetukset
+          pysyvät vain omalla laitteellasi.
         </p>
+      </header>
+
+      <section>
         <h2>Mitä tietoja keräämme</h2>
         <p>
-          Tallennamme selaimesi paikalliseen muistiin lataustehoon, ladattavaan energiamäärään,
-          täyden latauksen asetukseen, tehohinnoittelun tilaan, sähkön marginaaliin ja valittuun
-          hinnoitteluprofiiliin liittyvät arvot. Tietoja ei lähetetä palvelimillemme.
+          Tallennamme selaimesi paikalliseen muistiin lataustehoa, ladattavaa
+          energiamäärää, täyden latauksen asetusta, tehohinnoittelun tilaa,
+          sähkön marginaalia sekä valittua hinnoitteluprofiilia koskevat tiedot.
+          Sovellus ei käytä evästeitä, eikä tietoja lähetetä palvelimillemme.
         </p>
+      </section>
+
+      <section>
         <h2>Mihin käytämme tietoja</h2>
         <p>
-          Käytämme tietoja ainoastaan lataussuunnitelman laskemiseen ja näyttämiseen tässä
-          sovelluksessa. Emme muodosta profiileja tai yhdistä tietoja yksittäisiin käyttäjiin.
+          Tallennetut arvot auttavat laskemaan ja näyttämään sinulle optimaalisen
+          latausaikataulun. Emme muodosta käyttäjäprofiileja emmekä yhdistä
+          tietoja yksittäisiin henkilöihin.
         </p>
+      </section>
+
+      <section>
         <h2>Tietojen säilytys ja hallinta</h2>
         <p>
-          Kaikki asetukset tallentuvat selaimesi paikalliseen tallennustilaan. Voit tyhjentää
-          tiedot poistamalla selaimen paikallisen tallennuksen tai vaihtamalla selainta.
+          Kaikki asetukset pysyvät selaimesi paikallisessa tallennustilassa.
+          Voit poistaa tiedot tyhjentämällä selaimen paikallisen tallennuksen,
+          käyttämällä yksityistä selaustilaa tai vaihtamalla laitetta tai
+          selainta.
         </p>
+      </section>
+
+      <section>
         <h2>Ulkoiset tietolähteet</h2>
         <p>
-          Sovellus noutaa ajantasaiset sähkön spot-hinnat julkisista rajapinnoista.
+          Sovellus hakee ajantasaiset sähkön spot-hinnat julkisista rajapinnoista.
+          Näitä tietoja käytetään vain lataussuunnitelman laskentaan, eikä niistä
+          voi tunnistaa yksittäisiä käyttäjiä.
         </p>
+      </section>
+
+      <section>
         <h2>Yhteystiedot</h2>
         <p>
           Lisätietoja varten ota yhteyttä osoitteeseen
-          <a href="mailto:xxx.xxx.com">xxx.xxx.com</a>.
-        </p>
-        <p>
-          <a class="site-footer__link" href="./index.html">Palaa sovellukseen</a>
+          <a href="mailto:info@example.com">info@example.com</a>.
         </p>
       </section>
+
+      <footer>
+        <span>&copy; 2024 Lataaja</span>
+        <nav>
+          <a href="index.html">Takaisin sovellukseen</a>
+          <a href="about.html">Tietoa sovelluksesta</a>
+          <a href="mailto:info@example.com">Ota yhteyttä</a>
+        </nav>
+      </footer>
     </main>
   </body>
 </html>
