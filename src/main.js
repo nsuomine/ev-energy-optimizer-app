@@ -703,7 +703,7 @@ function SummaryPanel({ plan, chargingTimeHours, loading, error, tehoMode, prici
   return h(
     'div',
     { className: 'summary-card' },
-    h('h2', null, 'Optimaalinen sähköauton latausikkuna'),
+    h('h2', null, 'Optimaalinen latausikkuna'),
     pricingLabel,
     h('p', { className: 'placeholder' }, `Latausaika noin ${formatDuration(chargingTimeHours)}`),
     h(
@@ -1329,7 +1329,7 @@ function App() {
           h(
             'section',
             { className: 'timeline-panel' },
-            h('h2', null, 'Latausikkuna tuntihinnat'),
+            h('h2', null, 'Latausikkunan tuntihinnat'),
             h(Timeline, { plan, tehoMode })
           ),
           h(

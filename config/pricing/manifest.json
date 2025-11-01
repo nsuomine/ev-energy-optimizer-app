@@ -8,7 +8,7 @@
     },
     {
       "id": "caruna",
-      "name": "Caruna yleissiirto",
+      "name": "Caruna yleissiirto (spot)",
       "configPath": "caruna.json"
     }
   ]
