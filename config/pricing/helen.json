@@ -1,0 +1,53 @@
+{
+  "siirto": {
+    "unit": "EUR_PER_KWH",
+    "tiers": [
+      {
+        "id": "muu_aika",
+        "rate": 0.0119,
+        "startDate": "2025-03-01",
+        "endDate": "2025-11-30",
+        "weekdays": [0, 1, 2, 3, 4, 5, 6],
+        "intervals": [
+          { "start": "00:00", "end": "23:59" }
+        ]
+      },
+      {
+        "id": "talvipaiva",
+        "rate": 0.0225,
+        "startDate": "2024-12-01",
+        "endDate": "2025-02-28",
+        "weekdays": [1, 2, 3, 4, 5],
+        "intervals": [
+          { "start": "07:00", "end": "21:00" }
+        ]
+      },
+      {
+        "id": "talviyö_ja_viikonloppu",
+        "rate": 0.0119,
+        "startDate": "2024-12-01",
+        "endDate": "2025-02-28",
+        "weekdays": [0, 1, 2, 3, 4, 5, 6],
+        "intervals": [
+          { "start": "00:00", "end": "06:59" },
+          { "start": "21:00", "end": "23:59" }
+        ]
+      }
+    ]
+  },
+  "teho": {
+    "unit": "EUR_PER_KW",
+    "tiers": [
+      {
+        "id": "tehomaksu",
+        "rate": 6.09,
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31",
+        "weekdays": [1, 2, 3, 4, 5],
+        "intervals": [
+          { "start": "07:00", "end": "21:00" }
+        ]
+      }
+    ]
+  }
+}

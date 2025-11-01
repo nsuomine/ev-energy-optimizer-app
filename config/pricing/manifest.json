@@ -1,0 +1,15 @@
+{
+  "default": "helen",
+  "pricings": [
+    {
+      "id": "helen",
+      "name": "Helen pienjännitetehosiirto (spot)",
+      "configPath": "helen.json"
+    },
+    {
+      "id": "caruna",
+      "name": "Caruna yleissiirto",
+      "configPath": "caruna.json"
+    }
+  ]
+}

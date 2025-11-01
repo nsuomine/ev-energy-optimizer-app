@@ -1,0 +1,17 @@
+{
+  "siirto": {
+    "unit": "EUR_PER_KWH",
+    "tiers": [
+      {
+        "id": "always",
+        "rate": 0.0526,
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31",
+        "weekdays": "0 1 2 3 4 5 6",
+        "intervals": [
+          { "start": "00:00", "end": "23:59" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+:root {
+  color-scheme: light;
+  font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0b111f;
+  color: #f7f9ff;
+  --bg-panel: rgba(13, 20, 40, 0.88);
+  --bg-surface: rgba(18, 27, 54, 0.9);
+  --border-strong: rgba(88, 125, 255, 0.4);
+  --accent: #7a8cff;
+  --accent-strong: #a28cff;
+  --success: #54dfb4;
+  --warning: #ffba6a;
+  --text-subtle: rgba(247, 249, 255, 0.75);
+  --page-padding: clamp(0.9rem, 2.2vw + 0.4rem, 2.5rem);
+}
+
+@media (max-width: 600px) {
+  :root {
+    --page-padding: clamp(0.75rem, 3vw + 0.5rem, 1.5rem);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--page-padding);
+  background: radial-gradient(circle at top, rgba(34, 55, 103, 0.65), rgba(11, 17, 31, 0.96));
+  width: 100%;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+main {
+  display: block;
+}
