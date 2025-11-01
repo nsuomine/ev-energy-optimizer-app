@@ -1373,7 +1373,7 @@ function App() {
           h(
             'a',
             {
-              href: 'mailto:xxx.xxx.com',
+              href: 'mailto:info@lataafiksusti.com',
               className: 'site-footer__link'
             },
             'Ota yhteyttä'
