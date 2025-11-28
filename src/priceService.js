@@ -205,8 +205,8 @@ function cloneCostConfiguration(source) {
       tiers: cloneTiers(source?.siirto?.tiers)
     },
     teho: {
-      unit: defaultCostConfiguration.teho.unit,
-      tiers: []
+      unit: source?.teho?.unit || defaultCostConfiguration.teho.unit,
+      tiers: cloneTiers(source?.teho?.tiers)
     }
   };
 }
