@@ -41,7 +41,7 @@
       {
         "id": "tehomaksu",
         "rate": 6.09,
-        "startDate": "2025-01-01",
+        "startDate": "2024-01-01",
         "endDate": "2025-12-31",
         "weekdays": [1, 2, 3, 4, 5],
         "intervals": [
